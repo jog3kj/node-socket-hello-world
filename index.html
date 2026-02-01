@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>WebSocketハローワールド</title>
+	<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+	<h1>リアルタイムカウンターv2</h1>
+	<div id="counter" style="font-size: 3rem;">-1</div>
+	<button id="addBtn" style="padding: 10px 20px;">＋1する</button>
+
+	<script>
+		// 3000番ポートで動いているNode.jsサーバーに接続します
+		// const socket = io('http://localhost:3000');
+		// const socket = io('http://192.168.0.10:3000');
+		const socket = io();
+
+		const counterDisplay = document.getElementById('counter');
+		counterDisplay.innerText = -2;
+
+		const addBtn = document.getElementById('addBtn');
+		counterDisplay.innerText = -3;
+
+		// ボタンが押されたらサーバーに「add_request」という合図を送る
+		addBtn.addEventListener('click', () => {
+			socket.emit('add_request');
+		});
+		counterDisplay.innerText = -4;
+
+		// サーバーから「update_count」というデータが届いたら画面を書き換える
+		socket.on('update_count', (newCount) => {
+			counterDisplay.innerText = newCount;
+		});
+		counterDisplay.innerText = -5;
+	</script>
+</body>
+</html>
